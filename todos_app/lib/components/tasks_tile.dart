@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class TaskTile extends StatelessWidget {
   final bool isChecked;
   final String taskTitle;
-  final Function(bool isDone) onCheckboxChange;
+  final Function onDoneChanged;
 
-  TaskTile({this.isChecked, this.taskTitle, this.onCheckboxChange});
+  TaskTile({this.isChecked, this.taskTitle, this.onDoneChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +17,9 @@ class TaskTile extends StatelessWidget {
                   isChecked ? TextDecoration.lineThrough : TextDecoration.none),
         ),
         trailing: Checkbox(
+          onChanged: onDoneChanged,
           activeColor: Colors.lightBlueAccent,
           value: isChecked,
-          onChanged: onCheckboxChange,
         )
 //          onChanged: toggleCheckBoxState);,
         );

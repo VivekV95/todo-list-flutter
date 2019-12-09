@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todos_app/components/tasks_tile.dart';
 import 'package:todos_app/model/task.dart';
 
 class TasksList extends StatelessWidget {
-  final List<Task> tasks;
-  final Function(bool isDone, int index) onTaskDoneChanged;
-
-  TasksList({this.tasks, this.onTaskDoneChanged});
-  String newTaskTitle;
-
   @override
   Widget build(BuildContext context) {
+    TaskData taskData = Provider.of<TaskData>(context);
     return ListView.builder(
       itemBuilder: (context, index) {
         return TaskTile(
-          taskTitle: tasks[index].name,
-          isChecked: tasks[index].isDone,
-          onCheckboxChange: (isDone) {
-            onTaskDoneChanged(isDone, index);
+          taskTitle: taskData.tasks[index].name,
+          isChecked: taskData.tasks[index].isDone,
+          onDoneChanged: (isDone) {
+            taskData.updateItem(index: index, isDone: isDone);
           },
         );
       },
-      itemCount: tasks.length,
+      itemCount: taskData.tasks.length,
     );
   }
 }
