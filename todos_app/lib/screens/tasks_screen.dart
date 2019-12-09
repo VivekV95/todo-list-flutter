@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:todos_app/components/tasks_list.dart';
+import 'package:todos_app/model/task.dart';
 
-class TasksScreen extends StatelessWidget {
+import 'add_task_screen.dart';
+
+class TasksScreen extends StatefulWidget {
+  @override
+  _TasksScreenState createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<TasksScreen> {
+  List<Task> tasks = [
+    Task(name: 'Buy milk'),
+    Task(name: 'Buy eggs'),
+    Task(name: 'Buy bread'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +63,14 @@ class TasksScreen extends StatelessWidget {
           Expanded(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
-              child: TasksList(),
+              child: TasksList(
+                onTaskDoneChanged: (isDone, index) {
+                  setState(() {
+                    tasks[index].isDone = isDone;
+                  });
+                },
+                tasks: tasks,
+              ),
               height: 300,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -62,29 +84,19 @@ class TasksScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              builder: (context) => AddTaskScreen(
+                    onTaskAdded: (task) {
+                      setState(() {
+                        tasks.add(task);
+                      });
+                    },
+                  ));
+        },
         backgroundColor: Colors.lightBlueAccent,
         child: Icon(Icons.add),
-      ),
-    );
-  }
-}
-
-class TasksList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[TaskTile(), TaskTile()],
-    );
-  }
-}
-
-class TaskTile extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text('This is a task'),
-      trailing: Checkbox(
-        value: false,
       ),
     );
   }
