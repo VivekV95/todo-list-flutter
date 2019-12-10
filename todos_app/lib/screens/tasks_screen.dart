@@ -46,7 +46,7 @@ class _TasksScreenState extends State<TasksScreen> {
                       fontWeight: FontWeight.w700),
                 ),
                 Text(
-                  '${Provider.of<TaskData>(context).tasks.length} tasks',
+                  '${Provider.of<TaskData>(context).taskLength}',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
